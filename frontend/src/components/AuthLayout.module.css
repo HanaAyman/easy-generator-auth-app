@@ -1,0 +1,145 @@
+.page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.shell {
+  width: 100%;
+  max-width: 880px;
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(30, 20, 10, 0.1);
+  overflow: hidden;
+}
+
+.brandPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: var(--gradient-brand);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.blobA,
+.blobB {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.blobA {
+  width: 220px;
+  height: 220px;
+  background: var(--color-accent-secondary);
+  top: -70px;
+  right: -80px;
+}
+
+.blobB {
+  width: 260px;
+  height: 260px;
+  background: #ffffff;
+  bottom: -110px;
+  left: -90px;
+  opacity: 0.15;
+}
+
+.brandContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  gap: 2rem;
+}
+
+.logoBadge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.logo {
+  height: 22px;
+  width: auto;
+  color: #ffffff;
+}
+
+.tagline {
+  margin: 0 0 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.subtagline {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+}
+
+.formPanelInner {
+  width: 100%;
+  max-width: 360px;
+}
+
+.mobileLogo {
+  display: none;
+  height: 26px;
+  width: auto;
+  color: var(--color-text-primary);
+  margin: 0 auto 1.5rem;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .brandPanel {
+    display: none;
+  }
+
+  .formPanel {
+    padding: 2rem 1.5rem;
+  }
+
+  .mobileLogo {
+    display: block;
+  }
+
+  .title {
+    text-align: center;
+  }
+}

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Environment variables
+.env
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Tests
+coverage
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# mongodb-memory-server cache
+.cache

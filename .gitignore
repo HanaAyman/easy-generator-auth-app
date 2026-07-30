@@ -1,0 +1,8 @@
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Stray logs from local runs
+*.log
