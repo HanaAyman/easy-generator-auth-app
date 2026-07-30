@@ -73,3 +73,5 @@ reading the actual error and deciding what to do:
   the tests earned their keep by failing correctly, not by passing on the first try.
 - Asking it to run lint/build/test after every meaningful change caught type and style
   issues immediately instead of accumulating them.
+
+test workflow
