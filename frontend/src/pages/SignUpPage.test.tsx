@@ -31,6 +31,7 @@ describe('SignUpPage', () => {
     await user.type(screen.getByLabelText('Name'), 'Jo');
     await user.type(screen.getByLabelText('Email'), 'not-an-email');
     await user.type(screen.getByLabelText('Password'), 'weakpassword');
+    await user.type(screen.getByLabelText('Confirm password'), 'somethingelse');
     await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
     expect(await screen.findByText('Name must be at least 3 characters')).toBeInTheDocument();
@@ -38,6 +39,7 @@ describe('SignUpPage', () => {
     expect(
       screen.getByText('Password must contain a letter, a number, and a special character'),
     ).toBeInTheDocument();
+    expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
     expect(authApi.signUp).not.toHaveBeenCalled();
   });
 
@@ -54,6 +56,7 @@ describe('SignUpPage', () => {
     await user.type(screen.getByLabelText('Name'), 'Jane Doe');
     await user.type(screen.getByLabelText('Email'), 'jane@example.com');
     await user.type(screen.getByLabelText('Password'), 'Str0ng!Pass');
+    await user.type(screen.getByLabelText('Confirm password'), 'Str0ng!Pass');
     await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
     await waitFor(() =>

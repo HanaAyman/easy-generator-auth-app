@@ -26,7 +26,8 @@ export function SignUpPage() {
   async function onSubmit(values: SignUpFormValues) {
     setApiError(null);
     try {
-      await signUp(values);
+      const { confirmPassword: _confirmPassword, ...payload } = values;
+      await signUp(payload);
       navigate('/', { replace: true });
     } catch (error) {
       setApiError(extractErrorMessage(error, 'Could not create your account. Try again.'));
@@ -60,6 +61,14 @@ export function SignUpPage() {
           autoComplete="new-password"
           error={errors.password?.message}
           {...register('password')}
+        />
+        <FormField
+          id="confirmPassword"
+          label="Confirm password"
+          type="password"
+          autoComplete="new-password"
+          error={errors.confirmPassword?.message}
+          {...register('confirmPassword')}
         />
         <SubmitButton isSubmitting={isSubmitting}>Sign up</SubmitButton>
       </form>
