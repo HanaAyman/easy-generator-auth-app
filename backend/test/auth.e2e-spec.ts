@@ -6,12 +6,6 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-// ConfigModule.forRoot() validates and snapshots process.env as soon as
-// app.module.ts is imported above - before this file's beforeAll runs - so
-// overriding process.env afterwards has no effect on it. ConfigService is
-// overridden below with a shim that reads process.env live instead, so the
-// values set in beforeAll (a fresh in-memory Mongo URI, a test JWT secret,
-// etc.) actually reach the app instead of the real values from .env.
 class LiveEnvConfigService {
   get<T = string>(key: string, defaultValue?: T): T | undefined {
     const value = process.env[key];
