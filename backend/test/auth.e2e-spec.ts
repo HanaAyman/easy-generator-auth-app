@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
+import type { AppModule as AppModuleType } from '../src/app.module';
 
 describe('Auth flow (e2e)', () => {
   let app: INestApplication;
@@ -22,6 +22,8 @@ describe('Auth flow (e2e)', () => {
     process.env.JWT_EXPIRES_IN = '1h';
     process.env.CORS_ORIGIN = 'http://localhost:5173';
 
+    const { AppModule }: { AppModule: typeof AppModuleType } =
+      await import('../src/app.module');
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
