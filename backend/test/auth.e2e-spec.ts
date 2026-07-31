@@ -1,10 +1,16 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { getConnectionToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import type { Connection } from 'mongoose';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
+
+// A dedicated, distinctly-named database so this suite never touches real
+// dev/prod data whether it runs against a local mongod or a CI service
+// container - both listen on the default port 27017.
+const TEST_MONGODB_URI = 'mongodb://127.0.0.1:27017/auth-app-e2e-test';
 
 class LiveEnvConfigService {
   get<T = string>(key: string, defaultValue?: T): T | undefined {
@@ -23,7 +29,6 @@ class LiveEnvConfigService {
 
 describe('Auth flow (e2e)', () => {
   let app: INestApplication;
-  let mongod: MongoMemoryServer;
 
   const credentials = {
     email: 'jane.doe@example.com',
@@ -32,8 +37,7 @@ describe('Auth flow (e2e)', () => {
   };
 
   beforeAll(async () => {
-    mongod = await MongoMemoryServer.create();
-    process.env.MONGODB_URI = mongod.getUri();
+    process.env.MONGODB_URI = TEST_MONGODB_URI;
     process.env.JWT_SECRET = 'e2e-test-secret-value-at-least-32-chars-long';
     process.env.JWT_EXPIRES_IN = '1h';
     process.env.CORS_ORIGIN = 'http://localhost:5173';
@@ -58,8 +62,9 @@ describe('Auth flow (e2e)', () => {
   });
 
   afterAll(async () => {
+    const connection = app.get<Connection>(getConnectionToken());
+    await connection.dropDatabase();
     await app.close();
-    await mongod.stop();
   });
 
   it('rejects signup with a password that fails the complexity policy', async () => {
